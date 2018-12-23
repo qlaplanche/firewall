@@ -32,9 +32,12 @@ iptables -A OUTPUT -p udp -m udp --dport 53 -m comment --comment "DNS-UDP" -j AC
 iptables -A OUTPUT -p udp -m udp --dport 67:68 -m comment --comment "DHCP" -j ACCEPT
 iptables -A OUTPUT -p tcp -m tcp --dport 80 -m comment --comment "HTTP" -j ACCEPT
 iptables -A OUTPUT -p tcp -m tcp --dport 443 -m comment --comment "HTTPS" -j ACCEPT
+iptables -A OUTPUT -p icmp -j ACCEPT
 
 # Vpn
 iptables -A OUTPUT -j ACCEPT -o wlp4s0 -p udp -m udp --dport 1194
 iptables -A INPUT -j ACCEPT -i wlp4s0 -p udp -m udp --sport 1194
+iptables -A OUTPUT -j ACCEPT -o ens9 -p udp -m udp --dport 1194
+iptables -A INPUT -j ACCEPT -i ens9 -p udp -m udp --sport 1194
 iptables -A INPUT -j ACCEPT -i tun0
 iptables -A OUTPUT -j ACCEPT -o tun0
